@@ -7,6 +7,8 @@
 
 from sklearn.neighbors import kneighbors_graph
 from sklearn.decomposition import PCA
+from sklearn.metrics import pairwise
+from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csgraph
 
 import pandas as pd
@@ -167,8 +169,17 @@ def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym',
             from sklearn.metrics import pairwise_distances
             distances = pairwise_distances(features, metric=distlocal)
             KNN = connect_knn(KNN, distances, n_components, labels)
+        print("features :")
+        print(KNN)
     else:
-        KNN = features    
+        KNN = features
+        # calculate distance matrix
+        distance_matrix = pairwise.cosine_distances(features, Y=None)
+        knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
+                                    metric="precomputed").fit(distance_matrix)
+        KNN = knn_distance_based.kneighbors(return_distance=True)[0]
+        print("manual :")
+        print(KNN)
 
     if distlocal == 'minkowski':
         # sigma = np.mean(features)
