@@ -177,8 +177,17 @@ def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym',
         #knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                     #metric="precomputed").fit(distance_matrix)
         #KNN = knn_distance_based.kneighbors(return_distance=True)[0]
-        #print("manual :")
-        
+        if 'sym' in distfn.lower():
+            KNN = np.maximum(KNN, KNN.T)
+        else:
+            KNN = np.minimum(KNN, KNN.T)    
+
+        n_components, labels = csgraph.connected_components(KNN)
+
+        if connected and (n_components > 1):
+            from sklearn.metrics import pairwise_distances
+            distances = pairwise_distances(features, metric=distlocal)
+            KNN = connect_knn(KNN, distances, n_components, labels)
         print(KNN)
 
     if distlocal == 'minkowski':
