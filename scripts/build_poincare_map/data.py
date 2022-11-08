@@ -172,13 +172,13 @@ def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym',
         print("features :")
         print(KNN)
     else:
-        KNN = features
         # calculate distance matrix
-        distance_matrix = pairwise.cosine_distances(features, Y=None)
-        knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
-                                    metric="precomputed").fit(distance_matrix)
-        KNN = knn_distance_based.kneighbors(return_distance=True)[0]
-        print("manual :")
+        KNN = pairwise.cosine_distances(features, Y=None)
+        #knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
+                                    #metric="precomputed").fit(distance_matrix)
+        #KNN = knn_distance_based.kneighbors(return_distance=True)[0]
+        #print("manual :")
+        
         print(KNN)
 
     if distlocal == 'minkowski':
