@@ -142,7 +142,7 @@ def connect_knn(KNN, distances, n_components, labels):
     return KNN
 
 
-def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym', 
+def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sym', 
     connected=False, sigma=1.0, distlocal='minkowski'):
     """
     Computes the target RFA similarity matrix. The RFA matrix of
@@ -157,17 +157,17 @@ def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym',
                                mode='distance',
                                metric=distlocal,
                                include_self=False).toarray()
-        print("features :")
-        print(KNN)
+    # precomputed matrix
     else:
-        # calculate distance matrix -> partira
-        distance_matrix = pairwise.cosine_distances(features, Y=None)
+        # read distance matrix
+        distance_matrix = pd.read_csv(distfile).iloc[:,1:]
+        # construct graph
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                 metric="precomputed").fit(distance_matrix)
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
                                                   k_neighbours+1, 
                                                   mode='distance').toarray()
-        print("manual :")
+        print("precomputed :")
         print(KNN)
 
     if 'sym' in distfn.lower():
@@ -180,6 +180,7 @@ def compute_rfa(features, mode='features', k_neighbours=15, distfn='sym',
     if connected and (n_components > 1):
         from sklearn.metrics import pairwise_distances
         distances = pairwise_distances(features, metric=distlocal)
+        print(len(distances))
         KNN = connect_knn(KNN, distances, n_components, labels)
         
     if distlocal == 'minkowski':

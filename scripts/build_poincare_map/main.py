@@ -152,6 +152,10 @@ def parse_args():
         help='Bandwidth in high dimensional space', type=float, default=1.0)
     parser.add_argument('--gamma',
         help='Bandwidth in low dimensional space', type=float, default=2.0)
+    
+    # precomputed distance matrix
+    parser.add_argument('--distfile',
+        help='Name of the distance matrix file in csv format', type=str, default='output_phyl.csv')
 
     # optimization parameters
     parser.add_argument('--lr',
@@ -199,6 +203,7 @@ def poincare_map(opt):
     # compute matrix of RFA similarities
     RFA = compute_rfa(
         features,
+        opt.distfile,
         mode=opt.mode,
         k_neighbours=opt.knn,
         distfn=opt.distfn,
