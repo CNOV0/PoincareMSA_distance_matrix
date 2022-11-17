@@ -159,16 +159,20 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
                                include_self=False).toarray()
     # precomputed matrix
     else:
+        # distance_matrix = pairwise.cosine_distances(features, Y=None)
+        distance_matrix = pairwise.euclidean_distances(features, Y=None)
         # read distance matrix
-        distance_matrix = pd.read_csv(distfile).iloc[:,1:]
+        #distance_matrix = pd.read_csv(distfile)
+        #distance_matrix = distance_matrix.drop(['0', 'Unnamed: 0'], axis=1)
+        #distance_matrix = distance_matrix.drop(distance_matrix.index[231], axis=0)
         # construct graph
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                 metric="precomputed").fit(distance_matrix)
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
                                                   k_neighbours+1, 
                                                   mode='distance').toarray()
-        print("precomputed :")
-        print(KNN)
+        #print("precomputed :")
+        #print(KNN)
 
     if 'sym' in distfn.lower():
         KNN = np.maximum(KNN, KNN.T)
