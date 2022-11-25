@@ -9,7 +9,10 @@ from sklearn.neighbors import kneighbors_graph
 from sklearn.decomposition import PCA
 from sklearn.metrics import pairwise
 from sklearn.neighbors import NearestNeighbors
+from sklearn.manifold import MDS
 from scipy.sparse import csgraph
+import matplotlib.pyplot as plt
+
 
 import pandas as pd
 import numpy as np
@@ -159,20 +162,31 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
                                include_self=False).toarray()
     # precomputed matrix
     else:
-        # distance_matrix = pairwise.cosine_distances(features, Y=None)
+        #distance_matrix = pairwise.cosine_distances(features, Y=None)
         # distance_matrix = pairwise.euclidean_distances(features, Y=None)
-        # read distance matrix
+        
+        # setting the index right
+        index = [str(nb) for nb in range(253)]
+        # read distance matrix and cleaning
         distance_matrix = pd.read_csv(distfile)
-        distance_matrix = distance_matrix.drop(['0', 'Unnamed: 0'], axis=1)
-        distance_matrix = distance_matrix.drop(distance_matrix.index[231], axis=0)
+        distance_matrix = distance_matrix.sort_values(by=['Unnamed: 0'])
+        distance_matrix = distance_matrix.set_index('Unnamed: 0')
+        distance_matrix = distance_matrix[index]
+        distance_matrix = distance_matrix.drop(['0'], axis=1)
+        distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
+        print(distance_matrix)
+        
+        # MDS
+        embedding = MDS()
+        dist_mds = embedding.fit_transform(distance_matrix)
+        plt.scatter(dist_mds[:,0], dist_mds[:,1])
+        
         # construct graph
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                 metric="precomputed").fit(distance_matrix)
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
                                                   k_neighbours+1, 
                                                   mode='distance').toarray()
-        #print("precomputed :")
-        #print(KNN)
 
     if 'sym' in distfn.lower():
         KNN = np.maximum(KNN, KNN.T)
