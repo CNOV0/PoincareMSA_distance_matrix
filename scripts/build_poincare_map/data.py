@@ -163,7 +163,7 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
     # precomputed matrix
     else:
         #distance_matrix = pairwise.cosine_distances(features, Y=None)
-        # distance_matrix = pairwise.euclidean_distances(features, Y=None)
+        #distance_matrix = pairwise.euclidean_distances(features, Y=None)
         
         # setting the index right
         index = [str(nb) for nb in range(253)]
