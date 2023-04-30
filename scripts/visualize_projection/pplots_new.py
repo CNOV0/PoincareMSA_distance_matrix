@@ -85,6 +85,10 @@ def read_embeddings(path_embedding, path_annotation=None, withroot=True):
         if "proteins_id" in df_annotation.columns:
             df_annotation = df_annotation.drop(["proteins_id"], axis=1)
 
+        #Convert "objects" columns to "string" (correct nan read as int)
+        object_colnames = df_annotation.select_dtypes(['object']).columns
+        df_annotation[object_colnames] = df_annotation[object_colnames].astype("str")
+
         #Convert "int64" columns to "object"
         int_colnames = df_annotation.select_dtypes(['int64']).columns
         df_annotation[int_colnames] = df_annotation[int_colnames].astype("object")
@@ -96,9 +100,15 @@ def read_embeddings(path_embedding, path_annotation=None, withroot=True):
             raise ValueError("Number of sequence and number of annotation doesn't match.")
 
         df_concat.set_index(["proteins_id"], inplace=True)
+        df_concat.insert(2, "proteins_id", df_concat.index)
+        df_concat["proteins_id"] = df_concat["proteins_id"].astype("object")
+
         return df_concat
+    
     else:
         df_embeddings.set_index(["proteins_id"], inplace=True)
+        df_embeddings.insert(2, "proteins_id", df_embeddings.index)
+        df_embeddings["proteins_id"] = df_embeddings["proteins_id"].astype("object")
         return df_embeddings
 
 
