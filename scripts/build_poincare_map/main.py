@@ -170,7 +170,7 @@ def parse_args():
         help='Duration of burnin', type=int, default=500)
 
     parser.add_argument('--earlystop',
-        help='Early stop  of training by epsilon. If 0, continue to max epochs', 
+        help='Early stop of training by epsilon. If 0, continue to max epochs', 
         type=float, default=0.0001)
 
     parser.add_argument('--debugplot',

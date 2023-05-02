@@ -173,6 +173,8 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
         #distance_matrix = distance_matrix[index]
         #distance_matrix = distance_matrix.drop(['0'], axis=1)
         #distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
+        print(distance_matrix/10)
+        distance_matrix = distance_matrix/10
         print(distance_matrix)
         
         # construct graph
