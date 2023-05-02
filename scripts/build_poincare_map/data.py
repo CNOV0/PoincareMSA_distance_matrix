@@ -162,21 +162,21 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
                                include_self=False).toarray()
     # precomputed matrix
     else:
-        #distance_matrix = pairwise.cosine_distances(features, Y=None)
+        distance_matrix = pairwise.cosine_distances(features, Y=None)
         #distance_matrix = pairwise.euclidean_distances(features, Y=None)
         
         # setting the index right
-        index = [str(nb) for nb in range(253)]
+        #index = [str(nb) for nb in range(253)]
         # read distance matrix and cleaning
-        distance_matrix = pd.read_csv(distfile)
-        distance_matrix = distance_matrix.sort_values(by=['Unnamed: 0'])
-        distance_matrix = distance_matrix.set_index('Unnamed: 0')
-        distance_matrix = distance_matrix[index]
-        distance_matrix = distance_matrix.drop(['0'], axis=1)
-        distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
+        #distance_matrix = pd.read_csv(distfile)
+        #distance_matrix = distance_matrix.sort_values(by=['Unnamed: 0'])
+        #distance_matrix = distance_matrix.set_index('Unnamed: 0')
+        #distance_matrix = distance_matrix[index]
+        #distance_matrix = distance_matrix.drop(['0'], axis=1)
+        #distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
         print(distance_matrix)
         
-        # MDS
+        # MultiDimensionalScaling
         embedding = MDS()
         dist_mds = embedding.fit_transform(distance_matrix)
         plt.scatter(dist_mds[:,0], dist_mds[:,1])
@@ -184,6 +184,9 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
         # construct graph
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                 metric="precomputed").fit(distance_matrix)
+        # revoir cette partie plus tard
+        # metric=distlocal est plus là car déjà calculé ds la distance matrix
+        # metrics acceptees : cityblock, cosine, euclidean, haversine, l1, l2, manhattan, nan_euclidean
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
                                                   k_neighbours+1, 
                                                   mode='distance').toarray()
