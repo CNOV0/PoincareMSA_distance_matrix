@@ -162,8 +162,7 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
                                include_self=False).toarray()
     # precomputed matrix
     else:
-        distance_matrix = pairwise.cosine_distances(features, Y=None)
-        #distance_matrix = pairwise.euclidean_distances(features, Y=None)
+        distance_matrix = pairwise.euclidean_distances(features, Y=None)
         
         # setting the index right
         #index = [str(nb) for nb in range(253)]
@@ -175,11 +174,6 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
         #distance_matrix = distance_matrix.drop(['0'], axis=1)
         #distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
         print(distance_matrix)
-        
-        # MultiDimensionalScaling
-        embedding = MDS()
-        dist_mds = embedding.fit_transform(distance_matrix)
-        plt.scatter(dist_mds[:,0], dist_mds[:,1])
         
         # construct graph
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
