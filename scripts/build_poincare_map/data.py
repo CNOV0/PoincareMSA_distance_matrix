@@ -41,7 +41,6 @@ def create_parser():
 # Construct a padded numpy matrices for a given PSSM matrix
 def construct_tensor(fpath):
     ansarr = np.loadtxt(fpath).reshape(-1)
-    # quit()
     # ansarr = np.zeros((maxlen, 20))
     # ansarr[:arr.shape[0], :] = arr
     return np.array(ansarr)
@@ -162,21 +161,16 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
                                include_self=False).toarray()
     # precomputed matrix
     else:
-        # setting the index right
-        #index = [str(nb) for nb in range(253)]
-        # read distance matrix and cleaning
+        # read distance matrix
         distance_matrix = pd.read_csv(distfile)
-        #distance_matrix = distance_matrix.sort_values(by=['Unnamed: 0'])
-        #distance_matrix = distance_matrix.set_index('Unnamed: 0')
-        #distance_matrix = distance_matrix[index]
-        #distance_matrix = distance_matrix.drop(['0'], axis=1)
-        #distance_matrix = distance_matrix.drop(distance_matrix.index[0], axis=0)
-        print(distance_matrix)
+        distance_matrix = pairwise.euclidean_distances(features, Y=None)
         
-        # construct graph
+        # Holds the trained KNN model, which can be used to find the k nearest neighbors for any new data point based on the precomputed distances stored in distance_matrix.
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
                                 metric="precomputed").fit(distance_matrix)
-        # revoir cette partie plus tard
+
+        # computes the k-nearest neighbors graph based on the provided distance matrix. It returns a sparse matrix representation of the graph.
+        # The resulting KNN array will contain the distances between the data points, where each row corresponds to a data point and each column corresponds to a neighbor.
         # metric=distlocal est plus là car déjà calculé ds la distance matrix
         # metrics acceptees : cityblock, cosine, euclidean, haversine, l1, l2, manhattan, nan_euclidean
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
