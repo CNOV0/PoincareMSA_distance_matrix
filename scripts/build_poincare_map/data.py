@@ -163,7 +163,6 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
     else:
         # read distance matrix
         distance_matrix = pd.read_csv(distfile)
-        distance_matrix = pairwise.euclidean_distances(features, Y=None)
         
         # Holds the trained KNN model, which can be used to find the k nearest neighbors for any new data point based on the precomputed distances stored in distance_matrix.
         knn_distance_based = NearestNeighbors(n_neighbors=k_neighbours,
