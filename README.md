@@ -1,3 +1,14 @@
+# Maya's modification
+I wrote 4 scripts that are held in the folder `maya_scripts`.
+* `Correlation_distances.ipynb` : which calculates the Spearman correlation bewteen two distance matrix.
+* `Order.R` : which orders a `.csv` file for it to have ordered row and columns.
+* `Other_representation.ipynb` : which presents differents representation like T-sne or UMAP for the tested data.
+* `calculate_identity.py` : which calculates the paired identity percentage in a `.mfasta` and creates a `.csv` from it.
+
+The main code modified to test the adding of the precomputed matrix is `scripts/build_poincare_map/data.py`.
+
+The code for testing it out is `PoincareMSA.ipynb`.
+
 <img src=".github/PoincareMSA_small_logo.png" alt="PoincareMSA logo" style="height: 100px;"/>
      
 PoincaréMSA is a tool for protein family vizualisation starting from a multiple sequence alignment (either provided by the user or built by homologous search for a target sequence). It is available in the form of an interactive Google Colab notebooks and the underlying algorithm is described in Susmelj et al. [1]. PoincaréMSA takes as input a multiple sequence alignment (MSA) and builds its projection on a Poincaré disk using the method developed by Klimovskaia et al. in [2]. For the detailed tutorial and contacts please see: https://www.dsimb.inserm.fr/POINCARE_MSA
