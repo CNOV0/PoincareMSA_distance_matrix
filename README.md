@@ -7,6 +7,8 @@ I wrote 4 scripts that are held in the folder `maya_scripts`.
 
 The main code modified to test the adding of the precomputed matrix is `scripts/build_poincare_map/data.py`.
 
+---------------------------------------------------------------------------------------------------------------------------
+
 The code for testing it out is `PoincareMSA.ipynb`.
 
 <img src=".github/PoincareMSA_small_logo.png" alt="PoincareMSA logo" style="height: 100px;"/>
