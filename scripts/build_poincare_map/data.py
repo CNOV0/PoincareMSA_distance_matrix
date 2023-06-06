@@ -170,8 +170,8 @@ def compute_rfa(features, distfile, mode='features', k_neighbours=15, distfn='sy
 
         # computes the k-nearest neighbors graph based on the provided distance matrix. It returns a sparse matrix representation of the graph.
         # The resulting KNN array will contain the distances between the data points, where each row corresponds to a data point and each column corresponds to a neighbor.
-        # metric=distlocal est plus là car déjà calculé ds la distance matrix
-        # metrics acceptees : cityblock, cosine, euclidean, haversine, l1, l2, manhattan, nan_euclidean
+        # metric=distlocal not here because it has already been calculated
+        # metrics allowed : cityblock, cosine, euclidean, haversine, l1, l2, manhattan, nan_euclidean
         KNN = knn_distance_based.kneighbors_graph(distance_matrix,
                                                   k_neighbours+1, 
                                                   mode='distance').toarray()
