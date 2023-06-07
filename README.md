@@ -6,6 +6,7 @@ I wrote 4 scripts that are held in the folder `maya_scripts`.
 * `calculate_identity.py` : which calculates the paired identity percentage in a `.mfasta` and creates a `.csv` from it.
 
 The main code modified to test the adding of the precomputed matrix is `scripts/build_poincare_map/data.py`.
+The code was tested for globins and is `examples/globins/PoincareMSA_globin_distances.ipynb`.
 
 ---------------------------------------------------------------------------------------------------------------------------
 
