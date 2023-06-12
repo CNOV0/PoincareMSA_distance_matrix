@@ -62,7 +62,7 @@ def calculate_pairwise_identity(filename):
     return matrix_identity
 
 if __name__ == "__main__":
-    matrix_identity = calculate_pairwise_identity("poincareMSA/poincareMSA.clean0.9.NUM.mfasta")
+    matrix_identity = calculate_pairwise_identity("examples/globins/glob.mfasta")
     
     matrix_identity.to_csv("matrix_identity.csv", index=False)
     print("Identity DataFrame saved as matrix_identity.csv")
