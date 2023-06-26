@@ -8,6 +8,11 @@ I wrote 4 scripts that are held in the folder `maya_scripts`.
 The main code modified to test the adding of the precomputed matrix is `scripts/build_poincare_map/data.py`.
 The code was tested for globins and is `examples/globins/PoincareMSA_globin_distances.ipynb`.
 
+The phylogenetic distance matrix was created with the script `phylo_dist/compute_phylognetic_distance_between_leaves.py` and the file `phylo_dist/glob.phylip_phyml_tree.txt` by type the command : 
+```
+python compute_phylognetic_distance_between_leaves.py
+```
+
 ---------------------------------------------------------------------------------------------------------------------------
 
 The code for testing it out is `PoincareMSA.ipynb`.
